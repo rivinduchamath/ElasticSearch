@@ -49,9 +49,9 @@ public class ElasticSearchQuery {
 
         if (response.found()) {
             product = response.source();
-            System.out.println("Product name " + product.getName());
+            System.out.println("ProductEntity name " + product.getName());
         } else {
-            System.out.println ("Product not found");
+            System.out.println ("ProductEntity not found");
         }
 
         return product;
@@ -63,10 +63,10 @@ public class ElasticSearchQuery {
 
         DeleteResponse deleteResponse = elasticsearchClient.delete(request);
         if (Objects.nonNull(deleteResponse.result()) && !deleteResponse.result().name().equals("NotFound")) {
-            return new StringBuilder("Product with id " + deleteResponse.id() + " has been deleted.").toString();
+            return new StringBuilder("ProductEntity with id " + deleteResponse.id() + " has been deleted.").toString();
         }
-        System.out.println("Product not found");
-        return new StringBuilder("Product with id " + deleteResponse.id()+" does not exist.").toString();
+        System.out.println("ProductEntity not found");
+        return new StringBuilder("ProductEntity with id " + deleteResponse.id()+" does not exist.").toString();
 
     }
 
