@@ -1,0 +1,7 @@
+com/cloudofgoods/entity/ProductEntity.class
+com/cloudofgoods/controller/ElasticSearchController.class
+com/cloudofgoods/configaration/ElasticSearchConfiguration.class
+com/cloudofgoods/ElasticSearchApplication.class
+com/cloudofgoods/repository/ElasticSearchQuery.class
+com/cloudofgoods/model/Product.class
+com/cloudofgoods/controller/UIController.class

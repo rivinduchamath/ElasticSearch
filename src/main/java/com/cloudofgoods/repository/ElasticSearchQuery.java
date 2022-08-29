@@ -14,12 +14,11 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
 
-@RequiredArgsConstructor
 @Repository
 public class ElasticSearchQuery {
 
-
-    private final ElasticsearchClient elasticsearchClient;
+    @Autowired
+    private ElasticsearchClient elasticsearchClient;
 
     private final String indexName = "products";
 
@@ -31,15 +30,15 @@ public class ElasticSearchQuery {
                 .id(product.getId())
                 .document(product)
         );
-        if(response.result().name().equals("Created")){
+        if (response.result().name().equals("Created")) {
             return new StringBuilder("Document has been successfully created.").toString();
-        }else if(response.result().name().equals("Updated")){
+        } else if (response.result().name().equals("Updated")) {
             return new StringBuilder("Document has been successfully updated.").toString();
         }
         return new StringBuilder("Error while performing the operation.").toString();
     }
 
-    public Product getDocumentById(String productId) throws IOException{
+    public Product getDocumentById(String productId) throws IOException {
         Product product = null;
         GetResponse<Product> response = elasticsearchClient.get(g -> g
                         .index(indexName)
@@ -49,9 +48,9 @@ public class ElasticSearchQuery {
 
         if (response.found()) {
             product = response.source();
-            System.out.println("ProductEntity name " + product.getName());
+            System.out.println("Product name " + product.getName());
         } else {
-            System.out.println ("ProductEntity not found");
+            System.out.println("Product not found");
         }
 
         return product;
@@ -63,20 +62,20 @@ public class ElasticSearchQuery {
 
         DeleteResponse deleteResponse = elasticsearchClient.delete(request);
         if (Objects.nonNull(deleteResponse.result()) && !deleteResponse.result().name().equals("NotFound")) {
-            return new StringBuilder("ProductEntity with id " + deleteResponse.id() + " has been deleted.").toString();
+            return new StringBuilder("Product with id " + deleteResponse.id() + " has been deleted.").toString();
         }
-        System.out.println("ProductEntity not found");
-        return new StringBuilder("ProductEntity with id " + deleteResponse.id()+" does not exist.").toString();
+        System.out.println("Product not found");
+        return new StringBuilder("Product with id " + deleteResponse.id() + " does not exist.").toString();
 
     }
 
-    public  List<Product> searchAllDocuments() throws IOException {
+    public List<Product> searchAllDocuments() throws IOException {
 
-        SearchRequest searchRequest =  SearchRequest.of(s -> s.index(indexName));
-        SearchResponse searchResponse =  elasticsearchClient.search(searchRequest, Product.class);
+        SearchRequest searchRequest = SearchRequest.of(s -> s.index(indexName));
+        SearchResponse searchResponse = elasticsearchClient.search(searchRequest, Product.class);
         List<Hit> hits = searchResponse.hits().hits();
         List<Product> products = new ArrayList<>();
-        for(Hit object : hits){
+        for (Hit object : hits) {
 
             System.out.print(((Product) object.source()));
             products.add((Product) object.source());
