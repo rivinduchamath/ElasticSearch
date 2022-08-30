@@ -15,11 +15,6 @@ import org.springframework.context.annotation.Configuration;
 public class ElasticSearchConfiguration
 {
 
-    @Value("${elasticsearch.host}")
-    public String elasticsearchHost;
-    @Value("${elasticsearch.port}")
-    public int elasticsearchPort;
-
     @Bean
     public RestClient getRestClient() {
         RestClient restClient = RestClient.builder(
