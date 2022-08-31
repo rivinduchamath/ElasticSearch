@@ -2,22 +2,26 @@ package com.cloudofgoods.controller;
 
 import com.cloudofgoods.model.Product;
 import com.cloudofgoods.repository.ElasticSearchQuery;
-import org.springframework.beans.factory.annotation.Autowired;
+import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.*;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.ModelAttribute;
+import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.PostMapping;
 
 import java.io.IOException;
 
 @Controller
+@RequiredArgsConstructor
 public class UIController {
 
-    @Autowired
-    private ElasticSearchQuery elasticSearchQuery;
+
+    private final ElasticSearchQuery elasticSearchQuery;
 
     @GetMapping("/")
     public String viewHomePage(Model model) throws IOException {
-        model.addAttribute("listProductDocuments",elasticSearchQuery.searchAllDocuments());
+        model.addAttribute("listProductDocuments", elasticSearchQuery.searchAllDocuments());
         return "index";
     }
 
